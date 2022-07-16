@@ -1,0 +1,38 @@
+ Scanner entrada = new Scanner(System.in);
+        System.out.println("Entre com o nome do arquivo ou diretório:");
+        
+        
+        // Criar objeto Path com a entrada fornecida pelo usuário
+        Path caminho = Paths.get(entrada.nextLine());
+
+        // Verificar se o caminho existe, e mostrar informações sobre ele em caso positivo:
+        if (Files.exists(caminho)) {
+            System.out.printf("Nome do arquivo: %s%n", caminho.getFileName());
+            System.out.printf("É diretório? %s%n", Files.isDirectory(caminho)?"Sim":"Não");
+            System.out.printf("Tamanho: %s%n", Files.size(caminho));
+            
+//            List<String> novoCaminho = new ArrayList<>();
+//            for(int i=0;i<caminho.toString().split("/").length-2 ;i++){
+//                novoCaminho.add(caminho.toString().split("/")[i]);
+//            }
+//            
+//            String aux = "";
+//            
+//            for(String p : novoCaminho){//               MINHA GAMBIARRA HEHEHEHE
+//                aux += "/" + p;
+//            }
+//            
+//            caminho = Paths.get(aux);
+            
+            //Se for diretório, mostrar seu conteúdo:
+            if (Files.isDirectory(caminho)) {
+                  System.out.println("Conteúdo do diretório:\n");
+                  DirectoryStream<Path> directoryStream = Files.newDirectoryStream(caminho);
+                  for (Path cam : directoryStream) {
+                    System.out.println(cam);
+                  }
+            }
+        }
+        else { // Se o caminho não for arquivo ou diretório, apresentar mensagem de erro
+            System.out.printf("%nO caminho %s não existe.",caminho);
+        }
